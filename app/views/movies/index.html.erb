@@ -8,9 +8,10 @@
     <tr>
       <th>Movie Title</th>
       <th>
-        <%= link_to "Movie Title", movie_path(@ratings_to_show==[] ?{:sort => "title"}: {})
+        <%= link_to "Movie Title", movie_path(@ratings_to_show==[] ?{:sort => "title"}: {:sort => "title", :ratings => params[:ratings]})%>
       </th>
       <th>Rating</th>
+      <%= link_to "Release Date", movie_path(@ratings_to_show==[] ?{:sort => "date"}: {:sort => "date", :ratings => params[:ratings]})%>
       <th>Release Date</th>
       <th>More Info</th>
     </tr>
