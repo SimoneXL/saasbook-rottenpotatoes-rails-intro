@@ -7,6 +7,9 @@
   <thead>
     <tr>
       <th>Movie Title</th>
+      <th>
+        <%= link_to "Movie Title", movie_path(@ratings_to_show==[] ?{:sort => "title"}: {})
+      </th>
       <th>Rating</th>
       <th>Release Date</th>
       <th>More Info</th>

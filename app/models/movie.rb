@@ -3,7 +3,8 @@ class Movie < ActiveRecord::Base
   def self.all_ratings
     ['G', 'PG', 'PG-13','R']
   end
-
+  attr_accessor :all_ratings
+  
   def self.check_ratings(p)
     if p[:ratings].nil? || p[:ratings] == []
       return []
