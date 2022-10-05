@@ -7,17 +7,18 @@ class MoviesController < ApplicationController
   end
 
   def index
+    # @movies = Movie.all
 
     @redirect_flag = false
 
-    if !session[:ratings].nil?
-      @redirect_flag = true
+    if session.key?(:ratings) && !params.key?(:ratings)
       params[:ratings] = session[:ratings]
+      @redirect_flag = true
     end
 
-    if session.key?(:sort) && params[:commit] != 'Refresh' && !params.key?(:sort)
-      @redirect_flag = true
+    if session.key?(:sort) && params[:commit] != "Refresh" && !params.key?(:sort)
       params[:sort] = session[:sort]
+      @redirect_flag = true
     end
 
     if @redirect_flag == true
@@ -25,25 +26,37 @@ class MoviesController < ApplicationController
     end
 
     if !params.key?(:ratings)
-      params[:ratings] = Hash[Movie.all_ratings.collect{|item| [item, "1"]}]
+      params[:ratings] = Hash[Movie.all_ratings.collect { |item| [item, "1"] } ]
     end
 
-    @movies = Movie.all
-    @all_ratings = Movie.all_ratings
-    @ratings_to_show = Movie.check_ratings(params)
+    
 
+    @all_ratings = Movie.all_ratings
+    # @ratings_to_show = params[:ratings].nil? ? [] : params[:ratings].keys
+    @ratings_to_show = Movie.check_ratings(params)
+    # @movies_to_show = Movie.with_ratings(@ratings_to_show, order)
+
+    if (session.key?(:sort) && params[:commit] == "Refresh")
+      params[:sort] = session[:sort]
+    end
+
+    # params[:sort] = session[:sort]
+    
+    
     if params.key?(:sort) 
       if params[:sort] == 'title'
         @movies_to_show = Movie.with_ratings(@ratings_to_show, :title)
         @title_bg = 'hilite'
-        
+        @date_bg = ''
       else
         @movies_to_show = Movie.with_ratings(@ratings_to_show, :release_date)
         @date_bg = 'hilite'
-       
+        @title_bg = ''
       end
     else
       @movies_to_show = Movie.with_ratings(@ratings_to_show)
+      @title_bg = ''
+      @date_bg = ''
     end
 
     if params.key?(:sort) && params[:commit] != "Refresh"
@@ -52,7 +65,9 @@ class MoviesController < ApplicationController
     #   session.delete(:sort)
     end
 
-    session[:ratings] = params[:ratings] 
+    session[:ratings] = params[:ratings]
+
+
   end
 
   def new
