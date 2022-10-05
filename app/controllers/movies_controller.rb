@@ -8,13 +8,51 @@ class MoviesController < ApplicationController
 
   def index
 
+    @redirect_flag = false
+
     if !session[:ratings].nil?
+      @redirect_flag = true
       params[:ratings] = session[:ratings]
+    end
+
+    if session.key?(:sort) && params[:commit] != 'Refresh' && !params.key?(:sort)
+      @redirect_flag = true
+      params[:sort] = session[:sort]
+    end
+
+    if @redirect_flag == true
+      redirect_to movies_path(:ratings => params[:ratings], :sort => params[:sort])
+    end
+
+    if !params.key?(:ratings)
+      params[:ratings] = Hash[Movie.all_ratings.collect{|item| [item, "1"]}]
     end
 
     @movies = Movie.all
     @all_ratings = Movie.all_ratings
     @ratings_to_show = Movie.check_ratings(params)
+
+    if params.key?(:sort) 
+      if params[:sort] == 'title'
+        @movies_to_show = Movie.with_ratings(@ratings_to_show, :title)
+        @title_bg = 'hilite'
+        
+      else
+        @movies_to_show = Movie.with_ratings(@ratings_to_show, :release_date)
+        @date_bg = 'hilite'
+       
+      end
+    else
+      @movies_to_show = Movie.with_ratings(@ratings_to_show)
+    end
+
+    if params.key?(:sort) && params[:commit] != "Refresh"
+      session[:sort] = params[:sort]
+    # else
+    #   session.delete(:sort)
+    end
+
+    session[:ratings] = params[:ratings] 
   end
 
   def new
