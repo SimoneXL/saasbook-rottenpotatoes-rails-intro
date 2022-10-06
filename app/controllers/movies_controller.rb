@@ -11,20 +11,20 @@ class MoviesController < ApplicationController
       params[:ratings] = Hash[Movie.all_ratings.collect { |item| [item, "1"] } ]
     end
 
-    @redirect_flag = false
+    @redirect_f = false
+
+    if session.key?(:sort) && params[:commit] != "Refresh" && !params.key?(:sort)
+      @redirect_f = true
+      params[:sort] = session[:sort]
+    end
 
     if session.key?(:ratings) && !params.key?(:ratings)
-      @redirect_flag = true
+      @redirect_f = true
       params[:ratings] = session[:ratings]
       
     end
 
-    if session.key?(:sort) && params[:commit] != "Refresh" && !params.key?(:sort)
-      @redirect_flag = true
-      params[:sort] = session[:sort]
-    end
-
-    if @redirect_flag
+    if @redirect_f
       redirect_to movies_path(:ratings => params[:ratings], :sort => params[:sort])
     end
 
@@ -38,27 +38,30 @@ class MoviesController < ApplicationController
     end
     
     
-    if params.key?(:sort) 
+    if !params.key?(:sort) 
+      @movies_to_show = Movie.with_ratings(@ratings_to_show)
+      @title_bg = ''
+      @date_bg = ''
+    else
       if params[:sort] == 'title'
         @movies_to_show = Movie.with_ratings(@ratings_to_show, :title)
         @title_bg = 'hilite'
         @date_bg = ''
       else
         @movies_to_show = Movie.with_ratings(@ratings_to_show, :release_date)
-        @date_bg = 'hilite'
         @title_bg = ''
+        @date_bg = 'hilite'
       end
-    else
-      @movies_to_show = Movie.with_ratings(@ratings_to_show)
-      @title_bg = ''
-      @date_bg = ''
+      
     end
+    
+    session[:ratings] = params[:ratings]
 
     if params.key?(:sort) && params[:commit] != "Refresh"
       session[:sort] = params[:sort]
     end
 
-    session[:ratings] = params[:ratings]
+    
 
 
   end
