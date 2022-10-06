@@ -7,11 +7,11 @@
   <thead>
     <tr>
       <th class=<%="#{@title_bg}"%>>
-        <%= link_to "Movie Title", movies_path(@ratings_to_show.empty?() ? {:sort => "title"} : {:sort => "title", :ratings => params[:ratings]}), id:'title_header', class:"#{@title_bg}"%>
+        <%= link_to "Movie Title", movies_path(@ratings_to_show.empty?() ? {:sort => "title"} : {:sort => "title", :ratings => params[:ratings]}), class:"#{@title_bg}"%>
       </th>
       <th>Rating</th>
       <th class=<%="#{@date_bg}"%>>
-        <%= link_to "Release Date", movies_path(@ratings_to_show.empty?() ? {:sort => "date"} : {:sort => "date", :ratings => params[:ratings]}), id:'release_date_header', class:"#{@date_bg}"%>
+        <%= link_to "Release Date", movies_path(@ratings_to_show.empty?() ? {:sort => "date"} : {:sort => "date", :ratings => params[:ratings]}), class:"#{@date_bg}"%>
       </th>
       <th>More Info</th>
     </tr>
