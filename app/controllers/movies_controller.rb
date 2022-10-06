@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
 
     @redirect_f = false
 
-    if session.key?(:sort) && !params.key?(:sort) 
+    if session.key?(:sort) && !params.key?(:sort) && params[:commit] != "Refresh"
       @redirect_f = true
       params[:sort] = session[:sort]
     end
