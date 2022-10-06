@@ -7,6 +7,9 @@ class MoviesController < ApplicationController
   end
 
   def index
+    if !params.key?(:ratings)
+      params[:ratings] = Hash[Movie.all_ratings.collect { |item| [item, "1"] } ]
+    end
 
     @redirect_flag = false
 
@@ -21,13 +24,11 @@ class MoviesController < ApplicationController
       params[:sort] = session[:sort]
     end
 
-    if @redirect_flag == true
+    if @redirect_flag
       redirect_to movies_path(:ratings => params[:ratings], :sort => params[:sort])
     end
 
-    if !params.key?(:ratings)
-      params[:ratings] = Hash[Movie.all_ratings.collect { |item| [item, "1"] } ]
-    end
+    
 
     @all_ratings = Movie.all_ratings
     @ratings_to_show = Movie.check_ratings(params)
