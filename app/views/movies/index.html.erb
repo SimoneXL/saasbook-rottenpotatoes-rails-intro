@@ -27,7 +27,7 @@
     <%= submit_tag 'Refresh', id: 'ratings_submit', class: 'btn btn-primary' %>
   <% end %>
   <tbody>
-    <% @movies_to_show.each do |movie| %>
+    <% @movies.each do |movie| %>
       <tr>
         <td>
           <%= movie.title%>

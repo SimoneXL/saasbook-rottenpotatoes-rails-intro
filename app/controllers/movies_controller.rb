@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
 
     @redirect_f = false
 
-    if session.key?(:sort) && params[:commit] != "Refresh" && !params.key?(:sort)
+    if session.key?(:sort) && !params.key?(:sort) 
       @redirect_f = true
       params[:sort] = session[:sort]
     end
@@ -40,16 +40,16 @@ class MoviesController < ApplicationController
 
     
     if !params.key?(:sort) 
-      @movies_to_show = Movie.with_ratings(@ratings_to_show)
+      @movies = Movie.with_ratings(@ratings_to_show)
       @title_bg = ''
       @date_bg = ''
     else
       if params[:sort] == 'title'
-        @movies_to_show = Movie.with_ratings(@ratings_to_show, :title)
+        @movies = Movie.with_ratings(@ratings_to_show, :title)
         @title_bg = 'hilite'
         @date_bg = ''
       else
-        @movies_to_show = Movie.with_ratings(@ratings_to_show, :release_date)
+        @movies = Movie.with_ratings(@ratings_to_show, :release_date)
         @title_bg = ''
         @date_bg = 'hilite'
       end
@@ -61,8 +61,6 @@ class MoviesController < ApplicationController
     if params.key?(:sort) && params[:commit] != "Refresh"
       session[:sort] = params[:sort]
     end
-
-    
 
 
   end
