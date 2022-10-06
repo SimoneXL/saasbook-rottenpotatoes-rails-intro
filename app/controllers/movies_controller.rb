@@ -7,9 +7,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    if !params.key?(:ratings)
-      params[:ratings] = Hash[Movie.all_ratings.collect { |item| [item, "1"] } ]
-    end
+    
 
     @redirect_f = false
 
@@ -28,6 +26,9 @@ class MoviesController < ApplicationController
       redirect_to movies_path(:ratings => params[:ratings], :sort => params[:sort])
     end
 
+    if !params.key?(:ratings)
+      params[:ratings] = Hash[Movie.all_ratings.collect { |item| [item, "1"] } ]
+    end
     
 
     @all_ratings = Movie.all_ratings
@@ -54,7 +55,7 @@ class MoviesController < ApplicationController
       end
       
     end
-    
+
     session[:ratings] = params[:ratings]
 
     if params.key?(:sort) && params[:commit] != "Refresh"
