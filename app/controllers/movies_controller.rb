@@ -24,10 +24,6 @@ class MoviesController < ApplicationController
       redirect_to movies_path(:ratings => params[:ratings], :sort => params[:sort])
     end
 
-    if !params.key?(:ratings)
-      params[:ratings] = Hash[Movie.all_ratings.collect { |item| [item, "1"] } ]
-    end
-
     if (session.key?(:sort) && params[:commit] == "Refresh")
       params[:sort] = session[:sort]
     end
