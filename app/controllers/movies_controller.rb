@@ -30,14 +30,14 @@ class MoviesController < ApplicationController
       params[:ratings] = Hash[Movie.all_ratings.collect { |item| [item, "1"] } ]
     end
     
+    if (session.key?(:sort) && params[:commit] == "Refresh")
+      params[:sort] = session[:sort]
+    end
+
 
     @all_ratings = Movie.all_ratings
     @ratings_to_show = Movie.check_ratings(params)
 
-    if (session.key?(:sort) && params[:commit] == "Refresh")
-      params[:sort] = session[:sort]
-    end
-    
     
     if !params.key?(:sort) 
       @movies_to_show = Movie.with_ratings(@ratings_to_show)
