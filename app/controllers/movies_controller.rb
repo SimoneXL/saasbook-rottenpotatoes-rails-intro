@@ -51,8 +51,9 @@ class MoviesController < ApplicationController
       end
     end
 
-    
-    session[:sort] = params[:sort]
+    if params.key?(:sort) && params[:commit] != "Refresh"
+      session[:sort] = params[:sort]
+    end
 
     session[:ratings] = params[:ratings]
 
