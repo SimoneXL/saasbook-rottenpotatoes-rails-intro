@@ -16,13 +16,13 @@ class Movie < ActiveRecord::Base
   def self.with_ratings(ratings_list, order = nil)
 
       if order.nil?
-          if ratings_list.nil? || !ratings_list.length
+          if ratings_list.nil? || ratings_list == []
               return Movie.all
           else
               return Movie.where(rating: ratings_list)
           end
       else
-          if ratings_list.nil? || !ratings_list.length
+          if ratings_list.nil? || ratings_list == []
               if order == :title
                   return Movie.all.order(:title)
               else
@@ -36,6 +36,5 @@ class Movie < ActiveRecord::Base
               end
           end
       end
-
   end
 end
