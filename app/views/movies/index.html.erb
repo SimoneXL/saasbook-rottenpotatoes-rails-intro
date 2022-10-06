@@ -1,17 +1,15 @@
-<!--  This file is app/views/movies/index.html.erb -->
-<h2>All Movies</h2>
 
-<%#  Part 1: Start here... %>
+<h2>All Movies</h2>
 
 <table class="table table-striped col-md-12" id="movies">
   <thead>
     <tr>
       <th class=<%="#{@title_bg}"%>>
-        <%= link_to "Movie Title", movies_path(@ratings_to_show==[] {:sort => "title"} : {:sort => "title", :ratings => params[:ratings]}), class:"#{@title_bg}"%>
+        <%= link_to "Movie Title", movies_path(@ratings_to_show==[] ? {:sort => "title"} : {:sort => "title", :ratings => params[:ratings]}), class:"#{@title_bg}" %>
       </th>
       <th>Rating</th>
       <th class=<%="#{@date_bg}"%>>
-        <%= link_to "Release Date", movies_path(@ratings_to_show==[] ? {:sort => "date"} : {:sort => "date", :ratings => params[:ratings]}), class:"#{@date_bg}"%>
+        <%= link_to "Release Date", movies_path(@ratings_to_show==[] ? {:sort => "date"} : {:sort => "date", :ratings => params[:ratings]}), class:"#{@date_bg}" %>
       </th>
       <th>More Info</th>
     </tr>
