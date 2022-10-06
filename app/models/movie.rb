@@ -6,7 +6,7 @@ class Movie < ActiveRecord::Base
 
   def self.check_ratings(param)
 
-      if param[:ratings].nil? || !param[:ratings].length
+      if param[:ratings].nil? || param[:ratings]==[]
           return []
       end
       
