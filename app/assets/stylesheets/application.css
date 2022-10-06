@@ -14,5 +14,5 @@
  *= require_self
  */
 table#movies th.hilite {
-    background-color: yellow;
+    background-color: darkgoldenrod;
 }
