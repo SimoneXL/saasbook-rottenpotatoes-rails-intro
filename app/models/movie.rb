@@ -4,14 +4,14 @@ class Movie < ActiveRecord::Base
       ['G','PG','PG-13','R']
   end
 
-  def self.check_ratings(param)
+#   def self.check_ratings(param)
 
-      if param[:ratings].nil? || param[:ratings] == []
-          return []
-      end
+#       if param[:ratings].nil? || param[:ratings] == []
+#           return []
+#       end
       
-      return param[:ratings].keys
-  end
+#       return param[:ratings].keys
+#   end
 
   def self.with_ratings(ratings_list, order = nil)
 

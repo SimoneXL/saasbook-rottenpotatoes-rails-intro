@@ -10,6 +10,8 @@ class MoviesController < ApplicationController
 
     @redirect_flag = false
 
+    
+
     if session.key?(:ratings) && !params.key?(:ratings)
       @redirect_flag = true
       params[:ratings] = session[:ratings]
@@ -28,20 +30,24 @@ class MoviesController < ApplicationController
       params[:sort] = session[:sort]
     end
 
+    if !params.key?(:ratings)
+      params[:ratings] = Hash[Movie.all_ratings.collect { |item| [item, "1"] } ]
+    end
+
     @all_ratings = Movie.all_ratings
-    @ratings_to_show = Movie.check_ratings(params)
+    # @ratings_to_show = Movie.check_ratings(params)
     
     if !params.key?(:sort) 
-      @movies_to_show = Movie.with_ratings(@ratings_to_show)
+      @movies_to_show = Movie.with_ratings(params[:ratings].key)
       @title_bg = ''
       @date_bg = ''
     else
       if params[:sort] == 'title'
-        @movies_to_show = Movie.with_ratings(@ratings_to_show, :title)
+        @movies_to_show = Movie.with_ratings(params[:ratings].key, :title)
         @title_bg = 'hilite'
         @date_bg = ''
       else
-        @movies_to_show = Movie.with_ratings(@ratings_to_show, :release_date)
+        @movies_to_show = Movie.with_ratings(params[:ratings].key, :release_date)
         @date_bg = 'hilite'
         @title_bg = ''
       end
