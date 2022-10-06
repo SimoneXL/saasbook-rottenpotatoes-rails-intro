@@ -4,19 +4,17 @@ class Movie < ActiveRecord::Base
       ['G','PG','PG-13','R']
   end
 
-  def self.check_ratings(par)
+  def self.check_ratings(param)
 
-      if par[:ratings].nil? || par[:ratings] == []
+      if param[:ratings].nil? || param[:ratings] == []
           return []
       end
       
-      return par[:ratings].keys
+      return param[:ratings].keys
   end
 
   def self.with_ratings(ratings_list, order = nil)
-      # if ratings_list is an array such as ['G', 'PG', 'R'], retrieve all
-      #  movies with those ratings
-      # if ratings_list is nil, retrieve ALL movies
+
       if order.nil?
           if ratings_list.nil? || ratings_list == []
               return Movie.all
